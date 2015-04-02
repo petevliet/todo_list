@@ -1,7 +1,7 @@
 class TodosController < ApplicationController
 
   def index
-    @todos = Todo.all
+    @todos = Todo.all.sort_by(&:position)
     @todo = Todo.new
   end
 
@@ -14,6 +14,19 @@ class TodosController < ApplicationController
     else
       render :index
     end
+  end
+
+  def move_placement
+    @todo = Todo.find(params[:id])
+
+    current_placement = @todo.position
+    other_placement = current_placement + params[:direction].to_i
+    other_todo = Todo.find_by(position: other_placement)
+
+    other_todo.update(position: other_placement - params[:direction].to_i)
+    @todo.update(position: other_placement)
+
+    redirect_to root_path
   end
 
   def update
