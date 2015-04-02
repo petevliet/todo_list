@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  root 'todo#index'
+  root 'todos#index'
 
-  resources :todo
+  resources :todos
 
 
 end
